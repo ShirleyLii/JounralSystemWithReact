@@ -3,7 +3,10 @@
 * React and React Router for the frontend
 * Express and Mongoose for the backend
 * MongoDB for the database
+* Redis
 * Webpack for compilation
+* Speech-to-Tex 
+** speech recognition modulede signed to listen continuously to a user
 * AWS for holding project online
 
 
