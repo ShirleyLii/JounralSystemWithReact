@@ -6,7 +6,7 @@
 * Redis
 * Webpack for compilation
 * Speech-to-Tex 
-** speech recognition modulede signed to listen continuously to a user
+  * Speech recognition modulede signed to listen continuously to a user
 * AWS for holding project online
 
 
