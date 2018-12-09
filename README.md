@@ -4,6 +4,7 @@
 * Express and Mongoose for the backend
 * MongoDB for the database
 * Webpack for compilation
+* AWS for holding project online
 
 
 ## Run Program
