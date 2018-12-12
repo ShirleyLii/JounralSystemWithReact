@@ -265,7 +265,7 @@ class Home extends Component {
             <button onClick={this.onSignIn}> Sign In</button>
           </div>
 
-          <div>
+          {/* <div>
             {
               (signUpError) ? (
                 <p>{signUpError}</p>
@@ -278,7 +278,7 @@ class Home extends Component {
             <input type="email" placeholder="Email" value={signUpEmail} onChange={this.onTextboxChangeSignUpEmail} /><br />
             <input type="password" placeholder="Password" value={signUpPassword} onChange={this.onTextboxChangeSignUpPassword} /><br />
             <button onClick={this.onSignUp}>Sign Up</button>
-          </div>
+          </div> */}
 
         </div>)
     }
