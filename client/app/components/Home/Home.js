@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import 'whatwg-fetch';
 import { getFromStorage, setInStorage } from '../../utils/storage';
 
+
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -9,25 +10,15 @@ class Home extends Component {
     this.state = {
       isLoading: true,
       token: '', //if theres a token, which means the user is signed in 
-      signUpError: '',
       signInError: '',
       signInEmail: '',
       signInPassword: '',
-      signUpFirstName: '',
-      signUpLastName: '',
-      signUpEmail: '',
-      signUpPassword: '',
+
       
     };
     this.onTextboxChangeSignInEmail = this.onTextboxChangeSignInEmail.bind(this);
     this.onTextboxChangeSignInPassword = this.onTextboxChangeSignInPassword.bind(this);
-    this.onTextboxChangeSignUpEmail = this.onTextboxChangeSignUpEmail.bind(this);
-    this.onTextboxChangeSignUpFirstName = this.onTextboxChangeSignUpFirstName.bind(this);
-    this.onTextboxChangeSignUpLastName = this.onTextboxChangeSignUpLastName.bind(this);
-    this.onTextboxChangeSignUpPassword = this.onTextboxChangeSignUpPassword.bind(this);
 
-    this.onSignIn = this.onSignIn.bind(this);
-    this.onSignUp = this.onSignUp.bind(this);
     this.logout = this.logout.bind(this);
 
   }
@@ -73,29 +64,6 @@ class Home extends Component {
     })
   }
 
-  onTextboxChangeSignUpEmail(event) {
-    this.setState({
-      signUpEmail: event.target.value,
-    })
-  }
-
-  onTextboxChangeSignUpPassword(event) {
-    this.setState({
-      signUpPassword: event.target.value,
-    })
-  }
-
-  onTextboxChangeSignUpFirstName(event) {
-    this.setState({
-      signUpFirstName: event.target.value,
-    })
-  }
-
-  onTextboxChangeSignUpLastName(event) {
-    this.setState({
-      signUpLastName: event.target.value,
-    })
-  }
 
   onSignIn() {
 
@@ -143,51 +111,6 @@ class Home extends Component {
 
   }
 
-  onSignUp() {
-    //grab state]
-    const {
-      signUpFirstName,
-      signUpLastName,
-      signUpEmail,
-      signUpPassword,
-    } = this.state;
-
-    this.setState({
-      isLoading: true,
-    })
-    // post requst to backend 
-
-    fetch('/api/account/signup', {
-      method: 'POST', 
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        firstName : signUpFirstName,
-        lastName: signUpLastName,
-        email: signUpEmail,
-        password: signUpPassword,
-      }),
-    })
-      .then(res => res.json())
-      .then(json =>{
-        if(json.success){
-          this.setState({
-            signUpError: json.message,
-            isLoading: false,
-            signUpEmail: '',
-            signUpFirstName: '',
-            signUpLastName: '',
-            signUpPassword: '',
-          });
-        }
-        else{
-          this.setState({
-            signUpError: json.message,
-            isLoading: false,
-          });
-        }
-      });
-
-  }
 
   logout() {
     this.setState({
@@ -246,41 +169,41 @@ class Home extends Component {
 
     if (!token) {
       return (
-        <div>
-          <div>
-            {
-              (signInError) ? (
-                <p>{signInError}</p>
-              ) : (null)
-            }
-            <p>Sign In</p>
-            <input type="email"
-              placeholder="Email"
-              value={signInEmail}
-              onChange={this.onTextboxChangeSignInEmail} /><br />
-            <input type="password"
-              placeholder="Password"
-              value={signInPassword}
-              onChange={this.onTextboxChangeSignInPassword} /><br />
+        // <div className="login-page"> 
+        //   <div className="cities">
+        //     {
+        //       (signInError) ? (
+        //         <p>{signInError}</p>
+        //       ) : (null)
+        //     }
+        //     <p>Sign In</p>
+            
+        //     <input type="email"
+        //       placeholder="Email"
+        //       value={signInEmail}
+        //       onChange={this.onTextboxChangeSignInEmail} /><br />
+        //     <input type="password"
+        //       placeholder="Password"
+        //       value={signInPassword}
+        //       onChange={this.onTextboxChangeSignInPassword} /><br />
+        //       <br></br>
+        //     <button onClick={this.onSignIn}> Sign In</button>
+        //   </div>
+
+        // </div>
+        <div className="login-page">
+        <div className="form">
+          <form className="login-form">
+            <input type="text" placeholder="username" value={signInEmail} 
+            onChange={this.onTextboxChangeSignInEmail}/>
+            <input type="password" placeholder="password" value={signInPassword} onChange={this.onTextboxChangeSignInPassword}/>
             <button onClick={this.onSignIn}> Sign In</button>
-          </div>
-
-          <div>
-            {
-              (signUpError) ? (
-                <p>{signUpError}</p>
-              ) : (null)
-            }
-
-            <p>Sign Up</p>
-            <input type="text" placeholder="First Name" value={signUpFirstName} onChange={this.onTextboxChangeSignUpFirstName} /><br />
-            <input type="text" placeholder="Last Name" value={signUpLastName} onChange={this.onTextboxChangeSignUpLastName} /><br />
-            <input type="email" placeholder="Email" value={signUpEmail} onChange={this.onTextboxChangeSignUpEmail} /><br />
-            <input type="password" placeholder="Password" value={signUpPassword} onChange={this.onTextboxChangeSignUpPassword} /><br />
-            <button onClick={this.onSignUp}>Sign Up</button>
-          </div>
-
-        </div>)
+            <p className="message">Not registered? <a href="#">Create an account</a></p>
+          </form>
+        </div>
+      </div>
+        
+      )
     }
     return (
       <div>
