@@ -96,4 +96,9 @@ module.exports = (app) => {
 
     });
 
+    // // Edit an entry
+    // app.put('/api/entry/:id', (request, response, next) => {
+        
+    // })
+
 }

@@ -12,6 +12,8 @@ class Entry extends Component {
             entryAddError: '',
             entryAddTitle: '',
             entryAddEbody: '',
+            entryTitle: '',
+            entryEbody: ''
 
         };
 
@@ -33,6 +35,7 @@ class Entry extends Component {
             entryAddEbody: event.target.value,
         })
     }
+    
 
     componentDidMount() {
         const obj = getFromStorage('the_main_app');
@@ -62,7 +65,6 @@ class Entry extends Component {
             })
         }
     }
-
 
 
     // Add Entry Form here
@@ -138,7 +140,10 @@ class Entry extends Component {
 
                     <p>sdagasg</p>
                     {/* fake post go herer need to render later*/}
-                    
+
+                    <div className="navigation">
+                        User's name is: {Entry.ebody}
+                    </div>
                 </div>
 
             )

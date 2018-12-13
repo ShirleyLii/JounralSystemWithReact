@@ -158,6 +158,7 @@ class SignUp extends Component {
             <input type="email" placeholder="Email" value={signUpEmail} onChange={this.onTextboxChangeSignUpEmail} /><br />
             <input type="password" placeholder="Password" value={signUpPassword} onChange={this.onTextboxChangeSignUpPassword} /><br />
             <button onClick={this.onSignUp}>Sign Up</button>
+            <p className="message">Got an account already? <a href="/">Sign In Now!</a></p>
           </div> 
         
       )

@@ -198,7 +198,7 @@ class Home extends Component {
             onChange={this.onTextboxChangeSignInEmail}/>
             <input type="password" placeholder="password" value={signInPassword} onChange={this.onTextboxChangeSignInPassword}/>
             <button onClick={this.onSignIn}> Sign In</button>
-            <p className="message">Not registered? <a href="#">Create an account</a></p>
+            <p className="message">Not registered? <a href="/SignUp">Create an account</a></p>
           </form>
         </div>
       </div>
