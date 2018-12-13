@@ -136,9 +136,16 @@ class Entry extends Component {
                         <button onClick={this.onEntryAdd}>Add</button>
                     </div>
 
+                    <p>sdagasg</p>
+                    {/* fake post go herer need to render later*/}
+                    
                 </div>
+
             )
+
         }
+
+
     }
 }
 

@@ -50,4 +50,50 @@ module.exports = (app) => {
 
     });
 
+    // Return all the entries 
+    app.get('/api/entry', (request, response, next) => {
+        const { body } = request;
+        const {
+            title
+        } = body;
+
+        let {
+            ebody
+        } = body;
+
+        Entry.find({}).then(function (entries) {
+            response.send(entries);
+        });
+        return response.send({
+            success: true,
+            message: 'Success! Entry added.'
+        })
+
+    });
+
+    // Delete an entry
+    app.delete('/api/entry/:id', (request, response, next) => {
+
+        Entry.remove({
+            _id: request.params.id,
+
+        }, function(error,entries){
+            if (error){
+                // return console.error(error);
+                return response.send({
+                    success: false,
+                    message: 'Error, server error'
+                });
+            }
+
+            return response.send({
+                success: true,
+                message: 'Success! Entry deleted.'
+            })
+            console.log('deleted succesfully');
+            response.status(200).send();
+        })
+
+    });
+
 }
