@@ -12,6 +12,8 @@ import App from './components/App/App';
 import Home from './components/Home/Home';
 import SignUp from './components/SignUp/SignUp';
 
+import './styles/styles.scss';
+
 render((
   <Router>
     <App>
@@ -24,3 +26,4 @@ render((
   </Router>
 ), document.getElementById('app'));
 
+  
