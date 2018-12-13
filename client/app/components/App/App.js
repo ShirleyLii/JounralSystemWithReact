@@ -5,7 +5,6 @@ const App = ({ children }) => (
 
     <main>
       {children}
-
     </main>
 
   </>
