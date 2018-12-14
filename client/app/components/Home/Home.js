@@ -14,11 +14,12 @@ class Home extends Component {
       signInEmail: '',
       signInPassword: '',
 
-      
+
     };
     this.onTextboxChangeSignInEmail = this.onTextboxChangeSignInEmail.bind(this);
     this.onTextboxChangeSignInPassword = this.onTextboxChangeSignInPassword.bind(this);
 
+    this.onSignIn = this.onSignIn.bind(this);
     this.logout = this.logout.bind(this);
 
   }
@@ -34,7 +35,7 @@ class Home extends Component {
         .then(json => {
           if (json.success) {
             this.setState({
-              token: token,
+              token,
               isLoading: false
             });
           }
@@ -75,33 +76,34 @@ class Home extends Component {
     } = this.state;
 
     this.setState({
-      isLoading: false,
+      isLoading: true,
     })
     // post requst to backend 
 
     fetch('/api/account/signin', {
-      method: 'POST', 
-      headers: {'Content-Type': 'application/json'},
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         email: signInEmail,
         password: signInPassword,
       }),
     })
-      .then(res => res.json ())
-      .then(json =>{
-        if(json.success){
-          setInStorage('the_main_app',{token:json.token});
+      .then(res => res.json())
+      .then(json => {
+        console.log('json',json);
+        if (json.success) {
+          setInStorage('the_main_app', { token: json.token });
           this.setState({
             signInError: json.message,
             isLoading: false,
-            signInEmail: '',
+            signInEmail: '', 
             signInPassword: '',
             token: json.token,
           });
         }
-        else{
+        else {
           this.setState({
-            signUpError: json.message,
+            signInError: json.message,
             isLoading: false,
           });
         }
@@ -113,10 +115,10 @@ class Home extends Component {
 
   logout() {
     this.setState({
-      isLoading:true,
+      isLoading: true,
     });
     const obj = getFromStorage('the_main_app');
-    if (obj &&obj.token) {
+    if (obj && obj.token) {
       const { token } = obj;
       //verifyt toke
       fetch('api/account/logout?token=' + token)
@@ -129,7 +131,7 @@ class Home extends Component {
               message: 'sgasg',
             });
           }
-          else{
+          else {
             this.setState({
               isLoading: false,
               message: 'sgasggdsgagsa',
@@ -176,7 +178,7 @@ class Home extends Component {
         //       ) : (null)
         //     }
         //     <p>Sign In</p>
-            
+
         //     <input type="email"
         //       placeholder="Email"
         //       value={signInEmail}
@@ -191,17 +193,22 @@ class Home extends Component {
 
         // </div>
         <div className="login-page">
-        <div className="form">
-          <form className="login-form">
-            <input type="text" placeholder="username" value={signInEmail} 
-            onChange={this.onTextboxChangeSignInEmail}/>
-            <input type="password" placeholder="password" value={signInPassword} onChange={this.onTextboxChangeSignInPassword}/>
-            <button onClick={this.onSignIn}> Sign In</button>
-            <p className="message">Not registered? <a href="/SignUp">Create an account</a></p>
-          </form>
+          {
+            (signInError) ? (
+              <p>{signInError}</p>
+            ) : (null)
+          }
+          <div className="form">
+            <form className="login-form">
+              <input type="text" placeholder="username" value={signInEmail}
+                onChange={this.onTextboxChangeSignInEmail} />
+              <input type="password" placeholder="password" value={signInPassword} onChange={this.onTextboxChangeSignInPassword} />
+              <button onClick={this.onSignIn}> Sign In</button>
+              <p className="message">Not registered? <a href="/SignUp">Create an account</a></p>
+            </form>
+          </div>
         </div>
-      </div>
-        
+
       )
     }
     return (
