@@ -71,7 +71,6 @@ class Home extends Component {
     const {
       signInEmail,
       signInPassword,
-      signInError,
 
     } = this.state;
 

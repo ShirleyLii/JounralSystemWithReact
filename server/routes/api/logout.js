@@ -13,23 +13,23 @@ module.exports = (app) => {
 
         UserSession.findOneAndUpdate({
             _id: token,
-            isDeleted: false 
+            isDeleted: false
         }, {
-            $set:{isDeleted:true} 
-        }, null,(error, sessions) => {
-            if (error) {
-                return response.send({
-                   success: false,
-                   messgage: 'Error: Server Error' 
-                });
-            }
-        {
+                $set: { isDeleted: true }
+            }, null, (error, sessions) => {
+                if (error) {
+                    return response.send({
+                        success: false,
+                        messgage: 'Error: Server Error'
+                    });
+                }
+
                 return response.send({
                     success: true,
                     message: "Logout Successfully"
                 })
             }
-        }) 
+        )
     });
 
 }

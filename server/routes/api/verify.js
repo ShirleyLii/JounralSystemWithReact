@@ -27,12 +27,12 @@ module.exports = (app) => {
                 });
             }
 
-            // if (sessions.length != 1 ){
-            //     return response.send({
-            //         success: false,
-            //         message: 'Error: Invalid session'
-            //     });
-            // }
+            if (sessions.length != 1 ){
+                return response.send({
+                    success: false,
+                    message: 'Error: Invalid session'
+                });
+            }
 
             else{
                 return response.send({
