@@ -138,12 +138,12 @@ class Entry extends Component {
                         <button onClick={this.onEntryAdd}>Add</button>
                     </div>
 
-                    <p>sdagasg</p>
+                    {/* <p>sdagasg</p> */}
                     {/* fake post go herer need to render later*/}
 
-                    <div className="navigation">
+                    {/* <div className="navigation">
                         User's name is: {Entry.ebody}
-                    </div>
+                    </div> */}
                 </div>
 
             )
