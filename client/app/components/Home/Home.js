@@ -115,9 +115,10 @@ class Home extends Component {
 
   logout() {
     this.setState({
-      isLoading: true,
-    });
+      isLoading: true, //grab token from the storage
+    })
     const obj = getFromStorage('the_main_app');
+    console.log(obj)
     if (obj && obj.token) {
       const { token } = obj;
       //verifyt toke
@@ -127,14 +128,12 @@ class Home extends Component {
           if (json.success) {
             this.setState({
               token: '',
-              isLoading: false,
-              message: 'sgasg',
+              isLoading: false
             });
           }
           else {
             this.setState({
               isLoading: false,
-              message: 'sgasggdsgagsa',
             })
           }
         })
@@ -215,7 +214,6 @@ class Home extends Component {
       <div>
         <p>Account</p>
         <button onClick={this.logout}> LogOut </button>
-
       </div>
     );
   }
