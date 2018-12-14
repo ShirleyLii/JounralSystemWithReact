@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
 import { getFromStorage, setInStorage } from '../../utils/storage';
+import SpeechToText from 'speech-to-text';
 
 class Entry extends Component {
     constructor(props) {
@@ -12,8 +13,10 @@ class Entry extends Component {
             entryAddError: '',
             entryAddTitle: '',
             entryAddEbody: '',
-            entryTitle: '',
-            entryEbody: ''
+
+            listening: false,
+            interimText: '',
+            browserError: '',
 
         };
 
@@ -35,9 +38,47 @@ class Entry extends Component {
             entryAddEbody: event.target.value,
         })
     }
-    
+
+    startListening() {
+        try {
+        this.listener.startListening();
+        this.setState({ listening: true });
+        } catch (err) {
+        
+        }
+    };
+
+    stopListening(){
+        this.listener.stopListening();
+        this.setState({ 
+            listening: false
+        });
+    };
 
     componentDidMount() {
+        const onAnythingSaid = text => {
+            this.setState({ interimText: text });
+        };
+
+        const onEndEvent = () => {
+            if (this.state.listening) {
+              this.startListening();
+            }
+        };
+        
+        const onFinalised = text => {
+            this.setState({
+              entryAddEbody: this.state.entryAddEbody + this.state.interimText + '. ',
+              interimText: ''
+            });
+        };
+
+        try {
+            this.listener = new SpeechToText(onFinalised, onEndEvent, onAnythingSaid);
+          } catch (browserError) {
+            this.setState({ browserError: browserError.message });
+        }
+
         const obj = getFromStorage('the_main_app');
         console.log(obj)
         if (obj && obj.token) {
@@ -65,6 +106,7 @@ class Entry extends Component {
             })
         }
     }
+
 
 
     // Add Entry Form here
@@ -116,6 +158,9 @@ class Entry extends Component {
             entryAddTitle,
             entryAddEbody,
             entryAddError,
+            browserError, 
+            interimText,  
+            listening
 
         } = this.state;
 
@@ -123,10 +168,28 @@ class Entry extends Component {
             return (<div><p>Loading...</p></div>)
         }
 
+        let buttonForListening;
+        if (listening) {
+            buttonForListening = (
+              <button onClick={() => this.stopListening()}>
+                Stop Listening
+              </button>
+            );
+          } else {
+            buttonForListening = (
+              <button
+                onClick={() => this.startListening()}
+              >
+                Start Listening
+              </button>
+            );
+          }
+
         {
             return (
                 <div>
                     <div className="Entryform">
+                        
                         {
                             (entryAddError) ? (
                                 <p>{entryAddError}</p>
@@ -136,14 +199,16 @@ class Entry extends Component {
                         <input type="text" placeholder="Title" value={entryAddTitle} onChange={this.onTextboxChangeEntryAddTitle} /><br />
                         <input type="text" className="wideInput" placeholder="Jounal body" value={entryAddEbody} onChange={this.onTextboxChangeEntryAddEbody} /><br />
                         <button onClick={this.onEntryAdd}>Add</button>
+                        {
+                            (browserError) ? (
+                                <p>{browserError}</p>
+                            ) : (buttonForListening)
+                        }
                     </div>
 
                     <p>sdagasg</p>
                     {/* fake post go herer need to render later*/}
-
-                    <div className="navigation">
-                        User's name is: {Entry.ebody}
-                    </div>
+                    
                 </div>
 
             )
