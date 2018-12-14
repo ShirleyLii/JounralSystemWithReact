@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
 import { getFromStorage, setInStorage } from '../../utils/storage';
-
+import { Redirect } from "react-router-dom";
 
 class Home extends Component {
   constructor(props) {
@@ -169,28 +169,7 @@ class Home extends Component {
 
     if (!token) {
       return (
-        // <div className="login-page"> 
-        //   <div className="cities">
-        //     {
-        //       (signInError) ? (
-        //         <p>{signInError}</p>
-        //       ) : (null)
-        //     }
-        //     <p>Sign In</p>
-
-        //     <input type="email"
-        //       placeholder="Email"
-        //       value={signInEmail}
-        //       onChange={this.onTextboxChangeSignInEmail} /><br />
-        //     <input type="password"
-        //       placeholder="Password"
-        //       value={signInPassword}
-        //       onChange={this.onTextboxChangeSignInPassword} /><br />
-        //       <br></br>
-        //     <button onClick={this.onSignIn}> Sign In</button>
-        //   </div>
-
-        // </div>
+        
         <div className="login-page">
           {
             (signInError) ? (
@@ -212,8 +191,7 @@ class Home extends Component {
     }
     return (
       <div>
-        <p>Account</p>
-        <button onClick={this.logout}> LogOut </button>
+        <Redirect to="/Entry" />
       </div>
     );
   }
