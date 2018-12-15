@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import 'whatwg-fetch';
 import { getFromStorage, setInStorage } from '../../utils/storage';
 import SpeechToText from 'speech-to-text';
+import { Link, withRouter } from "react-router-dom";
 
 class Entry extends Component {
     constructor(props) {
@@ -24,6 +25,7 @@ class Entry extends Component {
         this.onTextboxChangeEntryAddEbody = this.onTextboxChangeEntryAddEbody.bind(this);
 
         this.onEntryAdd = this.onEntryAdd.bind(this);
+        this.logout = this.logout.bind(this);
 
     }
 
@@ -41,16 +43,16 @@ class Entry extends Component {
 
     startListening() {
         try {
-        this.listener.startListening();
-        this.setState({ listening: true });
+            this.listener.startListening();
+            this.setState({ listening: true });
         } catch (err) {
-        
+
         }
     };
 
-    stopListening(){
+    stopListening() {
         this.listener.stopListening();
-        this.setState({ 
+        this.setState({
             listening: false
         });
     };
@@ -62,20 +64,20 @@ class Entry extends Component {
 
         const onEndEvent = () => {
             if (this.state.listening) {
-              this.startListening();
+                this.startListening();
             }
         };
-        
+
         const onFinalised = text => {
             this.setState({
-              entryAddEbody: this.state.entryAddEbody + this.state.interimText + '. ',
-              interimText: ''
+                entryAddEbody: this.state.entryAddEbody + this.state.interimText + '. ',
+                interimText: ''
             });
         };
 
         try {
             this.listener = new SpeechToText(onFinalised, onEndEvent, onAnythingSaid);
-          } catch (browserError) {
+        } catch (browserError) {
             this.setState({ browserError: browserError.message });
         }
 
@@ -150,6 +152,41 @@ class Entry extends Component {
 
     }
 
+    // User able to log out
+    logout() {
+        this.setState({
+            isLoading: true, //grab token from the storage
+        })
+        const obj = getFromStorage('the_main_app');
+        console.log(obj)
+        if (obj && obj.token) {
+            const { token } = obj;
+            //verifyt toke
+            fetch('api/account/logout?token=' + token)
+                .then(res => res.json())
+                .then(json => {
+                    if (json.success) {
+                        this.setState({
+                            token: '',
+                            isLoading: false
+                        });
+                    }
+                    else {
+                        this.setState({
+                            isLoading: false,
+                        })
+                    }
+                })
+                .then(this.props.history.push("/"))
+        }
+        else {
+            this.setState({
+                isLoading: false,
+            })
+        }
+    }
+
+
 
     render() {
         const {
@@ -158,8 +195,8 @@ class Entry extends Component {
             entryAddTitle,
             entryAddEbody,
             entryAddError,
-            browserError, 
-            interimText,  
+            browserError,
+            interimText,
             listening
 
         } = this.state;
@@ -171,25 +208,25 @@ class Entry extends Component {
         let buttonForListening;
         if (listening) {
             buttonForListening = (
-              <button onClick={() => this.stopListening()}>
-                Stop Listening
+                <button onClick={() => this.stopListening()}>
+                    Stop Listening
               </button>
             );
-          } else {
+        } else {
             buttonForListening = (
-              <button
-                onClick={() => this.startListening()}
-              >
-                Start Listening
+                <button
+                    onClick={() => this.startListening()}
+                >
+                    Start Listening
               </button>
             );
-          }
+        }
 
         {
             return (
                 <div>
                     <div className="Entryform">
-                        
+
                         {
                             (entryAddError) ? (
                                 <p>{entryAddError}</p>
@@ -205,6 +242,13 @@ class Entry extends Component {
                             ) : (buttonForListening)
                         }
                     </div>
+
+                    <div>
+                        <p>Log Out Now</p>
+                        <button onClick={this.logout}> LogOut </button>
+                        
+                    </div>
+
 
                 </div>
 
